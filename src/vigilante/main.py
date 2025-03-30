@@ -53,3 +53,9 @@ def generate_report(path: str, sep: str=","):
     ws_calculated["A1"] = f"=SOMA({sheet_name}.A2:A3)"
     #TODO: continuar esta ideia
     wb.save(file_excel)
+
+if __name__ == "__main__":
+    import ipdb
+    ipdb.set_trace()
+    file = "FastFoodNutritionMenu2.csv"
+    generate_report(file)
