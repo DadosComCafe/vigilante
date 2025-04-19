@@ -40,6 +40,28 @@ def add_numeric_sheet_to_file(path: str) -> None:
 
     wb_new.save(numeric_new_file)
 
+
+def gera_metrica(path: str):
+    numeric_path = path.replace('.xlsx', '_numeric.xlsx')
+    report_path = path.replace(".xlsx", "_analise_quantitativa.xlsx")
+    wb_original = load_workbook(numeric_path)
+    
+    wb_original.save(report_path)
+    wb_new = load_workbook(report_path)
+
+    wb_new.create_sheet("AnaliseQuantitativa")
+    wb_new.save(report_path)
+
+    sheets: list = wb_original.sheetnames
+
+    for sheet in sheets:
+        if "numeric_" in sheet:
+            current_sheet = sheet
+    #TODO: continuar com o raciocínio
+
+
+
+
 if __name__ == "__main__":
     sample_file = "assets/sample.xlsx"
     add_numeric_sheet_to_file(sample_file)
