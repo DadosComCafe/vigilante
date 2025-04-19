@@ -1,4 +1,5 @@
 from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 
 
 def add_numeric_sheet_to_file(path: str) -> None:
@@ -57,11 +58,24 @@ def gera_metrica(path: str):
     for sheet in sheets:
         if "numeric_" in sheet:
             current_sheet = sheet
-    #TODO: continuar com o raciocínio
+    
+    col_names = [cel.value for cel in wb_original[current_sheet][1]]
+    wb_analise = wb_new["AnaliseQuantitativa"]
+
+    for col_index, name in enumerate(col_names, start=1):
+        col_letter = get_column_letter(col_index)
+        wb_analise[f"{col_letter}1"] = f"Somatória: {name}"
+        wb_analise[f"{col_letter}2"] = f"=SOMA({sheet}!{col_letter}:{col_letter})"
+        #print(sheet)
+    
+    wb_new.save(report_path)
+        
+    #TODO: testar
 
 
 
 
 if __name__ == "__main__":
     sample_file = "assets/sample.xlsx"
-    add_numeric_sheet_to_file(sample_file)
+    #add_numeric_sheet_to_file(sample_file)
+    gera_metrica(sample_file)
