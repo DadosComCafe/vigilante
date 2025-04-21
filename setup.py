@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DadosComCafe/vigilante",
-    author="ArjanCodes",
+    author="dadoscomcafe",
     author_email="dadoscomcafe.dev@gmail.com",
     license="MIT",
     classifiers=[
