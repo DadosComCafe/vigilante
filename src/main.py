@@ -46,6 +46,13 @@ def add_numeric_sheet_to_file(path: str) -> None:
 
 
 def gera_metrica(path: str):
+    """Gera as métricas (Média, Máximo, Mínimo e Somatória) dos campos numéricos presentes 
+    no arquivo xlsx fornecido no path. 
+
+    Args:
+        path (str): O caminho do arquivo xlsx com o nome a extensão. Exemplo:
+            assets/sample.xlsx
+    """
     numeric_path = path.replace('.xlsx', '_numeric.xlsx')
     report_path = path.replace(".xlsx", "_analise_quantitativa.xlsx")
     wb_original = load_workbook(numeric_path)
@@ -85,5 +92,5 @@ def gera_metrica(path: str):
 
 if __name__ == "__main__":
     sample_file = "assets/sample.xlsx"
-    #add_numeric_sheet_to_file(sample_file)
+    add_numeric_sheet_to_file(sample_file)
     gera_metrica(sample_file)
