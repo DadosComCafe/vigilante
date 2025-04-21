@@ -1,5 +1,8 @@
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def add_numeric_sheet_to_file(path: str) -> None:
@@ -64,15 +67,20 @@ def gera_metrica(path: str):
 
     for col_index, name in enumerate(col_names, start=1):
         col_letter = get_column_letter(col_index)
+        logging.info("Gerando a Somatória")
         wb_analise[f"{col_letter}1"] = f"Somatória: {name}"
-        wb_analise[f"{col_letter}2"] = f"=SOMA({sheet}!{col_letter}:{col_letter})"
-        #print(sheet)
+        wb_analise[f"{col_letter}2"] = f"=SUM({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando a média")
+        wb_analise[f"{col_letter}5"] = f"Média: {name}"
+        wb_analise[f"{col_letter}6"] = f"=AVERAGE({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando o máximo")
+        wb_analise[f"{col_letter}9"] = f"Máximo: {name}"
+        wb_analise[f"{col_letter}10"] = f"=MAX({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando o minimo")
+        wb_analise[f"{col_letter}13"] = f"Mínimo: {name}"
+        wb_analise[f"{col_letter}14"] = f"=MIN({sheet}!{col_letter}:{col_letter})"
     
     wb_new.save(report_path)
-        
-    #TODO: testar
-
-
 
 
 if __name__ == "__main__":
