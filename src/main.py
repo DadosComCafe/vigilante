@@ -1,4 +1,8 @@
 from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def add_numeric_sheet_to_file(path: str) -> None:
@@ -40,6 +44,53 @@ def add_numeric_sheet_to_file(path: str) -> None:
 
     wb_new.save(numeric_new_file)
 
+
+def gera_metrica(path: str):
+    """Gera as métricas (Média, Máximo, Mínimo e Somatória) dos campos numéricos presentes 
+    no arquivo xlsx fornecido no path. 
+
+    Args:
+        path (str): O caminho do arquivo xlsx com o nome a extensão. Exemplo:
+            assets/sample.xlsx
+    """
+    numeric_path = path.replace('.xlsx', '_numeric.xlsx')
+    report_path = path.replace(".xlsx", "_analise_quantitativa.xlsx")
+    wb_original = load_workbook(numeric_path)
+    
+    wb_original.save(report_path)
+    wb_new = load_workbook(report_path)
+
+    wb_new.create_sheet("AnaliseQuantitativa")
+    wb_new.save(report_path)
+
+    sheets: list = wb_original.sheetnames
+
+    for sheet in sheets:
+        if "numeric_" in sheet:
+            current_sheet = sheet
+    
+    col_names = [cel.value for cel in wb_original[current_sheet][1]]
+    wb_analise = wb_new["AnaliseQuantitativa"]
+
+    for col_index, name in enumerate(col_names, start=1):
+        col_letter = get_column_letter(col_index)
+        logging.info("Gerando a Somatória")
+        wb_analise[f"{col_letter}1"] = f"Somatória: {name}"
+        wb_analise[f"{col_letter}2"] = f"=SUM({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando a média")
+        wb_analise[f"{col_letter}5"] = f"Média: {name}"
+        wb_analise[f"{col_letter}6"] = f"=AVERAGE({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando o máximo")
+        wb_analise[f"{col_letter}9"] = f"Máximo: {name}"
+        wb_analise[f"{col_letter}10"] = f"=MAX({sheet}!{col_letter}:{col_letter})"
+        logging.info("Gerando o minimo")
+        wb_analise[f"{col_letter}13"] = f"Mínimo: {name}"
+        wb_analise[f"{col_letter}14"] = f"=MIN({sheet}!{col_letter}:{col_letter})"
+    
+    wb_new.save(report_path)
+
+
 if __name__ == "__main__":
     sample_file = "assets/sample.xlsx"
     add_numeric_sheet_to_file(sample_file)
+    gera_metrica(sample_file)
