@@ -4,7 +4,7 @@ with open("app/README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="vigilante",
+    name="python_sample_xlsx_report",
     version="0.0.10",
     description="Um gerador de relatório de análise quantitativa e qualitativa",
     package_dir={"": "app"},
@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DadosComCafe/vigilante",
-    author="ArjanCodes",
+    author="dadoscomcafe",
     author_email="dadoscomcafe.dev@gmail.com",
     license="MIT",
     classifiers=[

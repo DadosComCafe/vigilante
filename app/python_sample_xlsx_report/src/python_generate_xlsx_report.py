@@ -88,6 +88,7 @@ def gera_metrica(path: str):
         wb_analise[f"{col_letter}14"] = f"=MIN({sheet}!{col_letter}:{col_letter})"
     
     wb_new.save(report_path)
+    logging.info("Relatório gerado com sucesso.")
 
 
 if __name__ == "__main__":
