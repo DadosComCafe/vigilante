@@ -5,7 +5,7 @@ with open("app/README.md", "r") as f:
 
 setup(
     name="python_sample_xlsx_report",
-    version="0.0.10",
+    version="0.0.30",
     description="Um gerador de relatório de análise quantitativa e qualitativa",
     package_dir={"": "app"},
     packages=find_packages(where="app"),
@@ -17,12 +17,14 @@ setup(
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent",
     ],
     install_requires=["openpyxl==3.1.5"],
-    #extras_require={
-    #    "dev": ["pytest>=7.0", "twine>=4.0.2"],
-    #},
-    python_requires=">=3.12",
+    python_requires=">=3.8",
+    entry_points={
+        'console_scripts': [
+            'python_sample_report=python_sample_xlsx_report.src.cli:main',
+        ],
+    }
 )
