@@ -1,4 +1,5 @@
 from openpyxl import load_workbook
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 import logging
 
@@ -75,16 +76,41 @@ def gera_metrica(path: str):
     for col_index, name in enumerate(col_names, start=1):
         col_letter = get_column_letter(col_index)
         logging.info("Gerando a Somatória")
-        wb_analise[f"{col_letter}1"] = f"Somatória: {name}"
+
+        #definindo largura da coluna
+        wb_analise.column_dimensions[f"{col_letter}"].width = 55
+        
+        #definindo fonte da linha
+        wb_analise[f"{col_letter}1"].font = Font(name='Calibri', size=16, bold=True, color='0000FF')
+        
+        #definindo a altura da linha
+        wb_analise.row_dimensions[1].height = 30 
+        wb_analise[f"{col_letter}1"] = f"Somatória dos valores de: {name}"
+
         wb_analise[f"{col_letter}2"] = f"=SUM({sheet}!{col_letter}:{col_letter})"
         logging.info("Gerando a média")
-        wb_analise[f"{col_letter}5"] = f"Média: {name}"
+        #definindo fonte da linha
+        wb_analise[f"{col_letter}5"].font = Font(name='Calibri', size=16, bold=True, color='0000FF')
+        
+        wb_analise.row_dimensions[5].height = 30
+        wb_analise[f"{col_letter}5"] = f"Média dos valores de: {name}"
+        
         wb_analise[f"{col_letter}6"] = f"=AVERAGE({sheet}!{col_letter}:{col_letter})"
         logging.info("Gerando o máximo")
-        wb_analise[f"{col_letter}9"] = f"Máximo: {name}"
+        
+        #definindo fonte da linha
+        wb_analise[f"{col_letter}9"].font = Font(name='Calibri', size=16, bold=True, color='0000FF')
+        wb_analise.row_dimensions[9].height = 30
+        wb_analise[f"{col_letter}9"] = f"Máximo dos valores de: {name}"
+
         wb_analise[f"{col_letter}10"] = f"=MAX({sheet}!{col_letter}:{col_letter})"
+        
         logging.info("Gerando o minimo")
-        wb_analise[f"{col_letter}13"] = f"Mínimo: {name}"
+        #definindo fonte da linha
+        wb_analise[f"{col_letter}13"].font = Font(name='Calibri', size=16, bold=True, color='0000FF')
+        wb_analise.row_dimensions[13].height = 30
+        wb_analise[f"{col_letter}13"] = f"Mínimo dos valores de: {name}"
+
         wb_analise[f"{col_letter}14"] = f"=MIN({sheet}!{col_letter}:{col_letter})"
     
     wb_new.save(report_path)
