@@ -5,7 +5,7 @@ with open("app/README.md", "r") as f:
 
 setup(
     name="python_sample_xlsx_report",
-    version="0.0.40",
+    version="0.0.41",
     description="Um gerador de relatório de análise quantitativa e qualitativa",
     package_dir={"": "app"},
     packages=find_packages(where="app"),
